@@ -2,9 +2,12 @@
 A lazily built GUI for [Capper](https://github.com/substantialpickle/Capper)
 
 ## How to Use
+Go to [releases](https://github.com/synchroslap/CapperGUI/releases). Download the zip file and extract it.
 Open gui.exe if you're on Windows. 
+
 If you don't trust random executables from strangers on the internet,
 or you're on a different OS, you can also run it by running `python gui.py` in your shell.
+Just remember to run `pip install -r requirements.txt` if you're going to run the python file directly.
 
 Read the original README for Capper if you actually want a detailed understanding of how Capper works.
 You can also read the Capper [specification guide](https://github.com/substantialpickle/Capper/wiki/Specification-Guide)
