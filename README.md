@@ -57,3 +57,26 @@ Import TOML will let you load back your TOML file settings.
 Basically everything except for the actual caption text itself.
 
 Generate creates the caption
+
+## Dev Setup
+Currently setup for Windows dev environment.
+
+Install python requirements with
+
+`pip install -r requirements.txt`
+
+For build process you will need to install
+- [Cmake](https://cmake.org/download/)
+- cx_Freeze with `pip install cx_Freeze`
+- [7-zip](https://7-zip.org/)
+
+Make sure that you add your 7-zip install directory (usually C:\Program Files\7-Zip), 
+and Cmake (usually C:\Program Files\CMake\bin) to your PATH environment variable.
+
+Run `make` to generate exe and release zip file.
+
+Run `make build` to only generate exe in build/dist
+
+Run `make clean` to delete release and build folder contents
+
+Run `make zip` to zip the contents of the release folder
