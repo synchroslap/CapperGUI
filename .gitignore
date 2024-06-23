@@ -1,7 +1,9 @@
 /archive
 /build
-/release
+/release*
+/dist
 *.zip
 *.exe
 /output/*
 /temp/*
+*.spec
