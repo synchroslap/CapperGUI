@@ -1,0 +1,7 @@
+/archive
+/build
+/release
+*.zip
+*.exe
+/output/*
+/temp/*
