@@ -37,7 +37,7 @@ class CapperGUI(tk.Tk):
         self.image_path_label = tk.Label(image_frame, textvariable=self.image_path, wraplength=300)
         self.image_path_label.pack(side="left", padx=5, fill="x", expand=True)
 
-        self.color_label = tk.Label(image_frame, text="Pick Color")
+        self.color_label = tk.Label(image_frame, text="BG Color")
         self.color_label.pack(side="left", padx=5, pady=10)
         color_btn = tk.Button(image_frame, text="Choose Color", command=self.choose_color)
         color_btn.pack(side="left", padx=5, pady=10)
@@ -140,6 +140,12 @@ class CapperGUI(tk.Tk):
         import_toml_btn = tk.Button(buttons_frame, text="Import TOML", command=self.import_TOML)
         import_toml_btn.pack(side="left", padx=5)
 
+        export_text_btn = tk.Button(buttons_frame, text="Export Text", command=self.export_text)
+        export_text_btn.pack(side="left", padx=5)
+
+        import_text_btn = tk.Button(buttons_frame, text="Import Text", command=self.import_text)
+        import_text_btn.pack(side="left", padx=5)
+
         generate_btn = tk.Button(buttons_frame, text="Generate", command=self.generate_output)
         generate_btn.pack(side="left", padx=5)
 
@@ -214,6 +220,21 @@ class CapperGUI(tk.Tk):
             entry.delete(0, tk.END)
             entry.insert(0, color_code)
             entry.config(bg=color_code)
+
+    def import_text(self):
+        file_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
+        if file_path:
+            with open(file_path, "r", encoding="utf-8") as file:
+                file_data = file.read()
+            self.text_input.delete("1.0", tk.END)
+            self.text_input.insert("1.0", file_data)
+
+    def export_text(self):
+        file_path = filedialog.asksaveasfilename(defaultextension=".toml", filetypes=[("Text files", "*.txt")])
+        if file_path:
+            with open(file_path, "w", encoding="utf-8") as wf:
+                wf.write(self.text_input.get("1.0", tk.END).strip())
+        messagebox.showinfo("File Saved", f"Text file saved to {file_path}")
 
     def export_TOML(self):
         spec_toml = self.gen_toml_str()
