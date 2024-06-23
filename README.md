@@ -49,3 +49,8 @@ For "Credits Location", tl = top left, tr = top right, bl = bottom left, br = bo
 Export TOML will prompt you to save a TOML file with your current settings.
 You can use this if you want to save your settings or want to modify your current 
 settings with the optional specifications I haven't implemented in the GUI.
+
+Import TOML will let you load back your TOML file settings. 
+Basically everything except for the actual caption text itself.
+
+Generate creates the caption
