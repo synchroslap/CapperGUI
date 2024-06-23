@@ -1,6 +1,8 @@
 # Capper GUI
 A lazily built GUI for [Capper](https://github.com/substantialpickle/Capper)
 
+![](./samples/cappergui.png)
+
 ## How to Use
 Go to [releases](https://github.com/synchroslap/CapperGUI/releases). Download the zip file and extract it.
 Open gui.exe if you're on Windows. 
