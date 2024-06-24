@@ -3,13 +3,14 @@ from tkinter import filedialog, colorchooser, messagebox
 from tkinter import ttk
 import os
 import tomllib
+import sv_ttk
 
 
 class CapperGUI(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Capper GUI")
-        self.geometry("800x800")
+        self.geometry("960x800")
 
         self.image_path = tk.StringVar()
         self.hex_color = tk.StringVar()
@@ -28,55 +29,55 @@ class CapperGUI(tk.Tk):
         self.create_buttons_section()
     
     def create_image_section(self):
-        image_frame = tk.LabelFrame(self, text="Image")
+        image_frame = ttk.LabelFrame(self, text="Image")
         image_frame.pack(fill="x", padx=10, pady=5)
 
-        browse_btn = tk.Button(image_frame, text="Browse Image", command=self.browse_image)
+        browse_btn = ttk.Button(image_frame, text="Browse Image", command=self.browse_image)
         browse_btn.pack(side="left", padx=5)
 
-        self.image_path_label = tk.Label(image_frame, textvariable=self.image_path, wraplength=300)
+        self.image_path_label = ttk.Label(image_frame, textvariable=self.image_path, wraplength=300)
         self.image_path_label.pack(side="left", padx=5, fill="x", expand=True)
 
-        self.color_label = tk.Label(image_frame, text="BG Color")
+        self.color_label = ttk.Label(image_frame, text="BG Color")
         self.color_label.pack(side="left", padx=5, pady=10)
-        color_btn = tk.Button(image_frame, text="Choose Color", command=self.choose_color)
+        color_btn = ttk.Button(image_frame, text="Choose Color", command=self.choose_color)
         color_btn.pack(side="left", padx=5, pady=10)
 
-        img_height_label = tk.Label(image_frame, text="Image Height")
+        img_height_label = ttk.Label(image_frame, text="Image Height")
         img_height_label.pack(side="left", padx=5)
-        self.img_height_entry = tk.Entry(image_frame, textvariable=self.img_height)
+        self.img_height_entry = ttk.Entry(image_frame, textvariable=self.img_height)
         self.img_height_entry.pack(side="left", padx=5)
 
     def create_output_section(self):
-        output_frame = tk.LabelFrame(self, text="Output")
+        output_frame = ttk.LabelFrame(self, text="Output")
         output_frame.pack(fill="x", padx=10, pady=5)
 
-        base_filename_label = tk.Label(output_frame, text="Base Filename")
+        base_filename_label = ttk.Label(output_frame, text="Base Filename")
         base_filename_label.pack(side="left", padx=5)
-        self.base_filename_entry = tk.Entry(output_frame, textvariable=self.base_filename)
+        self.base_filename_entry = ttk.Entry(output_frame, textvariable=self.base_filename)
         self.base_filename_entry.pack(side="left", padx=5)
 
-        output_dir_label = tk.Label(output_frame, text="Output Directory")
+        output_dir_label = ttk.Label(output_frame, text="Output Directory")
         output_dir_label.pack(side="left", padx=5)
-        self.output_dir_entry = tk.Entry(output_frame, textvariable=self.output_directory)
+        self.output_dir_entry = ttk.Entry(output_frame, textvariable=self.output_directory)
         self.output_dir_entry.pack(side="left", padx=5)
         
         self.caption_var = tk.IntVar(value=1)
-        self.caption_chk = tk.Checkbutton(output_frame, text="Caption", variable=self.caption_var)
+        self.caption_chk = ttk.Checkbutton(output_frame, text="Caption", variable=self.caption_var)
         self.caption_chk.pack(side="left", padx=5)
         
         self.autospec_var = tk.IntVar(value=0)
-        self.autospec_chk = tk.Checkbutton(output_frame, text="Autospec", variable=self.autospec_var)
+        self.autospec_chk = ttk.Checkbutton(output_frame, text="Autospec", variable=self.autospec_var)
         self.autospec_chk.pack(side="left", padx=5)
 
         self.credits_var = tk.IntVar(value=0)
-        self.credits_chk = tk.Checkbutton(output_frame, text="Credits", variable=self.credits_var)
+        self.credits_chk = ttk.Checkbutton(output_frame, text="Credits", variable=self.credits_var)
         self.credits_chk.pack(side="left", padx=5)
 
     def create_characters_section(self):
-        self.characters_frame = tk.LabelFrame(self, text="Characters")
+        self.characters_frame = ttk.LabelFrame(self, text="Characters")
         self.characters_frame.pack(fill="x", padx=10, pady=5)
-        self.add_char_button = tk.Button(self.characters_frame, text="+", command=lambda: self.add_character_entries(self.characters_frame))
+        self.add_char_button = ttk.Button(self.characters_frame, text="+", command=lambda: self.add_character_entries(self.characters_frame))
         self.add_char_button.pack(side="top", pady=5)
         self.character_entries = []
         self.add_character_entries(self.characters_frame)
@@ -86,10 +87,10 @@ class CapperGUI(tk.Tk):
         self.character_entries[0][2].insert(0, "fonts/Noto_Serif/NotoSerif-Regular.ttf") # set default font to serif
 
     def create_text_section(self):
-        text_frame = tk.LabelFrame(self, text="Text")
+        text_frame = ttk.LabelFrame(self, text="Text")
         text_frame.pack(fill="x", padx=10, pady=5)
 
-        text_frame_inner = tk.Frame(text_frame)
+        text_frame_inner = ttk.Frame(text_frame)
         text_frame_inner.pack(fill="x", padx=5)
 
         self.text_input = tk.Text(text_frame_inner, height=10, wrap="word")
@@ -99,14 +100,14 @@ class CapperGUI(tk.Tk):
         self.text_input.configure(yscrollcommand=scrollbar.set)
         scrollbar.pack(side="right", fill="y")
 
-        text_loc_label = tk.Label(text_frame, text="Caption Text Location")
+        text_loc_label = ttk.Label(text_frame, text="Caption Text Location")
         text_loc_label.pack(side="left", padx=5)
 
         self.text_loc_var = tk.StringVar(value="left")
         self.text_loc_menu = ttk.Combobox(text_frame, textvariable=self.text_loc_var, values=["left", "right", "split"])
         self.text_loc_menu.pack(side="left", padx=5, pady=10)
 
-        align_label = tk.Label(text_frame, text="Text Alignment")
+        align_label = ttk.Label(text_frame, text="Text Alignment")
         align_label.pack(side="left", padx=5)
 
         self.align_var = tk.StringVar(value="center")
@@ -114,16 +115,16 @@ class CapperGUI(tk.Tk):
         self.align_menu.pack(side="left", padx=5, pady=10)
 
     def create_credits_section(self):
-        credits_frame = tk.LabelFrame(self, text="Credits")
+        credits_frame = ttk.LabelFrame(self, text="Credits")
         credits_frame.pack(fill="x", padx=10, pady=5)
 
-        credits_frame_inner = tk.Frame(credits_frame)
+        credits_frame_inner = ttk.Frame(credits_frame)
         credits_frame_inner.pack(fill="x", padx=5)
 
         self.credits_input = tk.Text(credits_frame_inner, height=4, width=5, wrap="word")
         self.credits_input.pack(side="left", fill="both", expand=True)
 
-        cred_align_label = tk.Label(credits_frame, text="Credits Location")
+        cred_align_label = ttk.Label(credits_frame, text="Credits Location")
         cred_align_label.pack(side="left", padx=5)
 
         self.cred_align_var = tk.StringVar(value="tl")
@@ -131,22 +132,22 @@ class CapperGUI(tk.Tk):
         self.cred_align_menu.pack(side="left", padx=5, pady=10)
 
     def create_buttons_section(self):
-        buttons_frame = tk.Frame(self)
+        buttons_frame = ttk.Frame(self)
         buttons_frame.pack(fill="x", padx=10, pady=5)
 
-        export_toml_btn = tk.Button(buttons_frame, text="Export TOML", command=self.export_TOML)
+        export_toml_btn = ttk.Button(buttons_frame, text="Export TOML", command=self.export_TOML)
         export_toml_btn.pack(side="left", padx=5)
 
-        import_toml_btn = tk.Button(buttons_frame, text="Import TOML", command=self.import_TOML)
+        import_toml_btn = ttk.Button(buttons_frame, text="Import TOML", command=self.import_TOML)
         import_toml_btn.pack(side="left", padx=5)
 
-        export_text_btn = tk.Button(buttons_frame, text="Export Text", command=self.export_text)
+        export_text_btn = ttk.Button(buttons_frame, text="Export Text", command=self.export_text)
         export_text_btn.pack(side="left", padx=5)
 
-        import_text_btn = tk.Button(buttons_frame, text="Import Text", command=self.import_text)
+        import_text_btn = ttk.Button(buttons_frame, text="Import Text", command=self.import_text)
         import_text_btn.pack(side="left", padx=5)
 
-        generate_btn = tk.Button(buttons_frame, text="Generate", command=self.generate_output)
+        generate_btn = ttk.Button(buttons_frame, text="Generate", command=self.generate_output)
         generate_btn.pack(side="left", padx=5)
 
     def browse_image(self):
@@ -162,22 +163,22 @@ class CapperGUI(tk.Tk):
 
             
     def add_character_entries(self, parent):
-        frame = tk.Frame(parent)
+        frame = ttk.Frame(parent)
         frame.pack(fill="x", pady=5)
 
-        name_label = tk.Label(frame, text="Name")
+        name_label = ttk.Label(frame, text="Name")
         name_label.pack(side="left", padx=5)
-        name_entry = tk.Entry(frame)
+        name_entry = ttk.Entry(frame)
         name_entry.pack(side="left", padx=5)
 
-        color_label = tk.Label(frame, text="Color")
+        color_label = ttk.Label(frame, text="Color")
         color_label.pack(side="left", padx=5)
         color_entry = tk.Entry(frame)
-        color_btn = tk.Button(frame, text="Choose", command=lambda: self.choose_char_color(color_entry))
+        color_btn = ttk.Button(frame, text="Choose", command=lambda: self.choose_char_color(color_entry))
         color_entry.pack(side="left", padx=5)
         color_btn.pack(side="left", padx=5)
 
-        font_label = tk.Label(frame, text="Font")
+        font_label = ttk.Label(frame, text="Font")
         font_label.pack(side="left", padx=5)
         font_files = [os.path.join(dp, f) for dp, dn, filenames in os.walk("fonts") for f in filenames if f.endswith('.ttf')]
         font_menu = ttk.Combobox(frame, values=font_files, width="100")
@@ -187,25 +188,25 @@ class CapperGUI(tk.Tk):
 
     # used when we load character entry with data from imported TOML
     def import_character_entry(self, parent, data):
-        frame = tk.Frame(parent)
+        frame = ttk.Frame(parent)
         frame.pack(fill="x", pady=5)
 
-        name_label = tk.Label(frame, text="Name")
+        name_label = ttk.Label(frame, text="Name")
         name_label.pack(side="left", padx=5)
-        name_entry = tk.Entry(frame)
+        name_entry = ttk.Entry(frame)
         name_entry.pack(side="left", padx=5)
         name_entry.insert(0, data["name"])
 
-        color_label = tk.Label(frame, text="Color")
+        color_label = ttk.Label(frame, text="Color")
         color_label.pack(side="left", padx=5)
-        color_entry = tk.Entry(frame)
-        color_btn = tk.Button(frame, text="Choose", command=lambda: self.choose_char_color(color_entry))
+        color_entry = ttk.Entry(frame)
+        color_btn = ttk.Button(frame, text="Choose", command=lambda: self.choose_char_color(color_entry))
         color_entry.pack(side="left", padx=5)
         color_btn.pack(side="left", padx=5)
         color_entry.insert(0, data["color"])
         color_entry.config(bg=data["color"])
 
-        font_label = tk.Label(frame, text="Font")
+        font_label = ttk.Label(frame, text="Font")
         font_label.pack(side="left", padx=5)
         font_files = [os.path.join(dp, f) for dp, dn, filenames in os.walk("fonts") for f in filenames if f.endswith('.ttf')]
         font_menu = ttk.Combobox(frame, values=font_files, width="100")
@@ -351,4 +352,5 @@ class CapperGUI(tk.Tk):
 
 if __name__ == "__main__":
     app = CapperGUI()
+    #sv_ttk.set_theme("dark")
     app.mainloop()
