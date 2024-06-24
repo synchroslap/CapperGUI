@@ -1,5 +1,5 @@
 # Define variables
-VERSION := v0.2
+VERSION := v0.4
 PYTHON_SCRIPT := gui.py
 BUILD_DIR := build
 DIST_DIR := $(BUILD_DIR)\dist

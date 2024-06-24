@@ -163,59 +163,60 @@ class CapperGUI(tk.Tk):
 
             
     def add_character_entries(self, parent):
-        frame = ttk.Frame(parent)
-        frame.pack(fill="x", pady=5)
+        char_entry = self.gen_char_entry(parent)
 
-        name_label = ttk.Label(frame, text="Name")
-        name_label.pack(side="left", padx=5)
-        name_entry = ttk.Entry(frame)
-        name_entry.pack(side="left", padx=5)
+        char_entry["relheight_entry"].insert(0, "1")
+        char_entry["stroke_entry"].insert(0, "0")
+        char_entry["stroke_color_entry"].insert(0, "#FFFFFF")
 
-        color_label = ttk.Label(frame, text="Color")
-        color_label.pack(side="left", padx=5)
-        color_entry = tk.Entry(frame, width=10)
-        color_btn = ttk.Button(frame, text="Pick", command=lambda: self.choose_char_color(color_entry), width=5)
-        color_entry.pack(side="left", padx=5)
-        color_btn.pack(side="left", padx=5)
+        self.character_entries.append((char_entry["name_entry"], char_entry["color_entry"], 
+                                       char_entry["font_menu"], char_entry["relheight_entry"], 
+                                       char_entry["stroke_entry"], char_entry["stroke_color_entry"]))
 
-        font_label = ttk.Label(frame, text="Font")
-        font_label.pack(side="left", padx=5)
-        font_files = [os.path.join(dp, f) for dp, dn, filenames in os.walk("fonts") for f in filenames if f.endswith('.ttf')]
-        font_menu = ttk.Combobox(frame, values=font_files, width=40)
-        font_menu.pack(side="left", padx=5)
-
-        relheight_label = ttk.Label(frame, text="Rel. Height")
-        relheight_label.pack(side="left", padx=5)
-        relheight_entry = ttk.Entry(frame, width=5)
-        relheight_entry.pack(side="left", padx=5)
-        relheight_entry.insert(0, "1")
-
-        stroke_label = ttk.Label(frame, text="Stroke Width")
-        stroke_label.pack(side="left", padx=5)
-        stroke_entry = ttk.Entry(frame, width=5)
-        stroke_entry.pack(side="left", padx=5)
-        stroke_entry.insert(0, "0")
-
-        stroke_color_label = ttk.Label(frame, text="Stroke Color")
-        stroke_color_label.pack(side="left", padx=5)
-        stroke_color_entry = tk.Entry(frame, width=10)
-        stroke_color_btn = ttk.Button(frame, text="Pick", command=lambda: self.choose_char_color(stroke_color_entry), width=5)
-        stroke_color_entry.pack(side="left", padx=5)
-        stroke_color_btn.pack(side="left", padx=5)
-        stroke_color_entry.insert(0, "#FFFFFF")
-
-        self.character_entries.append((name_entry, color_entry, font_menu, relheight_entry, stroke_entry, stroke_color_entry))
 
     # used when we load character entry with data from imported TOML
     def import_character_entry(self, parent, data):
+
+        char_entry = self.gen_char_entry(parent)
+        char_entry["name_entry"].insert(0, data["name"])
+
+        char_entry["color_entry"].insert(0, data["color"])
+        char_entry["color_entry"].config(bg=data["color"])
+
+        char_entry["font_menu"].insert(0, data["font"])
+
+        if "relative_height" in data:
+            char_entry["relheight_entry"].insert(0, data["relative_height"]) 
+        else:
+            char_entry["relheight_entry"].insert(0, "1")
+
+        if "stroke_width" in data:
+            char_entry["stroke_entry"].insert(0, data["stroke_width"])
+        else:
+            char_entry["stroke_entry"].insert(0, "0")
+
+        if "stroke_color" in data:
+            char_entry["stroke_color_entry"].insert(0, data["stroke_color"])
+            char_entry["stroke_color_entry"].config(bg=data["stroke_color"])
+        else:
+            char_entry["stroke_color_entry"].insert(0, "#FFFFFF")
+
+        self.character_entries.append((char_entry["name_entry"], char_entry["color_entry"], 
+                                       char_entry["font_menu"], char_entry["relheight_entry"], 
+                                       char_entry["stroke_entry"], char_entry["stroke_color_entry"]))
+
+    # ONLY use inside of import_character_entry and add_character_entries 
+    def gen_char_entry(self, parent):
         frame = ttk.Frame(parent)
         frame.pack(fill="x", pady=5)
+
+        #del_btn = ttk.Button(frame, text="X", command=self.delete_character_entry, width=1)
+        #del_btn.pack(side="left", padx=5)
 
         name_label = ttk.Label(frame, text="Name")
         name_label.pack(side="left", padx=5)
         name_entry = ttk.Entry(frame)
         name_entry.pack(side="left", padx=5)
-        name_entry.insert(0, data["name"])
 
         color_label = ttk.Label(frame, text="Color")
         color_label.pack(side="left", padx=5)
@@ -223,33 +224,22 @@ class CapperGUI(tk.Tk):
         color_btn = ttk.Button(frame, text="Choose", command=lambda: self.choose_char_color(color_entry), width=5)
         color_entry.pack(side="left", padx=5)
         color_btn.pack(side="left", padx=5)
-        color_entry.insert(0, data["color"])
-        color_entry.config(bg=data["color"])
 
         font_label = ttk.Label(frame, text="Font")
         font_label.pack(side="left", padx=5)
         font_files = [os.path.join(dp, f) for dp, dn, filenames in os.walk("fonts") for f in filenames if f.endswith('.ttf')]
         font_menu = ttk.Combobox(frame, values=font_files, width=40)
         font_menu.pack(side="left", padx=5)
-        font_menu.insert(0, data["font"])
 
         relheight_label = ttk.Label(frame, text="Rel. Height")
         relheight_label.pack(side="left", padx=5)
         relheight_entry = ttk.Entry(frame, width=5)
         relheight_entry.pack(side="left", padx=5)
-        if "relative_height" in data:
-            relheight_entry.insert(0, data["relative_height"]) 
-        else:
-            relheight_entry.insert(0, "1")
 
         stroke_label = ttk.Label(frame, text="Stroke Width")
         stroke_label.pack(side="left", padx=5)
         stroke_entry = ttk.Entry(frame, width=5)
         stroke_entry.pack(side="left", padx=5)
-        if "stroke_width" in data:
-            stroke_entry.insert(0, data["stroke_width"])
-        else:
-            stroke_entry.insert(0, "0")
 
         stroke_color_label = ttk.Label(frame, text="Stroke Color")
         stroke_color_label.pack(side="left", padx=5)
@@ -257,13 +247,18 @@ class CapperGUI(tk.Tk):
         stroke_color_btn = ttk.Button(frame, text="Pick", command=lambda: self.choose_char_color(stroke_color_entry), width=5)
         stroke_color_entry.pack(side="left", padx=5)
         stroke_color_btn.pack(side="left", padx=5)
-        if "stroke_color" in data:
-            stroke_color_entry.insert(0, data["stroke_color"])
-            stroke_color_entry.config(bg=data["stroke_color"])
-        else:
-            stroke_color_entry.insert(0, "#FFFFFF")
 
-        self.character_entries.append((name_entry, color_entry, font_menu, relheight_entry, stroke_entry, stroke_color_entry))
+        insert_btn = ttk.Button(frame, text="INS", command=lambda: self.insert_char_text_label(name_entry), width=3)
+        insert_btn.pack(side="left", padx=5)
+
+        return {"name_entry": name_entry, "color_entry": color_entry, "font_menu": font_menu, 
+                "relheight_entry": relheight_entry, "stroke_entry": stroke_entry, "stroke_color_entry": stroke_color_entry}
+    
+    def delete_character_entry():
+        print("test")
+    
+    def insert_char_text_label(self, entry):
+        self.text_input.insert(tk.INSERT, f"[{entry.get()}]")
 
     def choose_char_color(self, entry):
         color_code = colorchooser.askcolor(title="Choose color")[1]
@@ -384,22 +379,6 @@ class CapperGUI(tk.Tk):
             char_toml += "\n"
 
         return img_toml + text_toml + cred_toml + out_toml + char_toml
-
-    def get_all_values(self):
-        print("Image Path:", self.image_path.get())
-        print("Picked Color:", self.hex_color.get())
-        print("Base Filename:", self.base_filename.get())
-        print("Output Directory:", self.output_directory.get())
-        print("Caption:", self.caption_var.get())
-        print("Autospec:", self.autospec_var.get())
-
-        for i, (name_entry, color_entry, font_menu) in enumerate(self.character_entries, 1):
-            print(f"Character {i} Name:", name_entry.get())
-            print(f"Character {i} Color:", color_entry.get())
-            print(f"Character {i} Font:", font_menu.get())
-
-        print("Text Input:", self.text_input.get("1.0", tk.END).strip())
-        print("Caption Text Location:", self.align_var.get())
 
 if __name__ == "__main__":
     app = CapperGUI()
